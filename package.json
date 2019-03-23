@@ -1,0 +1,21 @@
+{
+  "name": "goflip",
+  "version": "1.0.0",
+  "description": "alphabet flashcards for kids",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx parcel src/index.html",
+    "build": "npx parcel build src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robbethencourt/goflip.git"
+  },
+  "author": "rob bethencourt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robbethencourt/goflip/issues"
+  },
+  "homepage": "https://github.com/robbethencourt/goflip#readme"
+}
