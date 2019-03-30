@@ -4,6 +4,7 @@ import Browser
 import Data.Alphabet as Alphabet
 import Html exposing (Html, div, h1, text)
 import Html.Events.Extra.Touch as Touch
+import Route
 
 
 
@@ -25,7 +26,7 @@ main =
 
 
 type alias Model =
-    { page : Page
+    { page : Route.Page
     , startAt : ( Float, Float )
     , moveAt : ( Float, Float )
     , endAt : ( Float, Float )
@@ -34,19 +35,13 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init flags =
-    ( { page = LetterForm Alphabet.A
+    ( { page = Route.LetterForm Alphabet.A Route.Show
       , startAt = ( 0, 0 )
       , moveAt = ( 0, 0 )
       , endAt = ( 0, 0 )
       }
     , Cmd.none
     )
-
-
-type Page
-    = LetterForm Alphabet.Letter
-    | Drawing Alphabet.Letter
-    | Nav
 
 
 
@@ -57,6 +52,7 @@ type Msg
     = StartAt ( Float, Float )
     | MoveAt ( Float, Float )
     | EndAt ( Float, Float )
+    | SetPage Route.Page
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -70,45 +66,44 @@ update msg model =
 
         EndAt ( x, y ) ->
             let
-                ( startX, startY ) =
+                ( startX, _ ) =
                     model.startAt
 
                 currentLetter =
                     case model.page of
-                        LetterForm letter ->
+                        Route.LetterForm letter _ ->
                             letter
 
-                        Drawing letter ->
+                        Route.Drawing letter _ ->
                             letter
 
-                        Nav ->
+                        Route.Nav _ ->
                             Alphabet.A
 
                 newPage =
                     if startX == x then
                         case model.page of
-                            LetterForm letter ->
-                                Drawing currentLetter
+                            Route.LetterForm _ _ ->
+                                Route.Drawing currentLetter Route.Show
 
-                            Drawing letter ->
-                                LetterForm currentLetter
+                            Route.Drawing _ _ ->
+                                Route.LetterForm currentLetter Route.Show
 
-                            Nav ->
-                                Nav
+                            Route.Nav _ ->
+                                Route.Nav Route.Show
 
                     else if startX > x then
                         let
                             currentLetterDetails =
                                 Alphabet.getLetterDetailsFromLetter currentLetter
-                        in
-                        let
+
                             newLetterNumber =
                                 currentLetterDetails.number + 1
 
                             newLetterDetails =
                                 Alphabet.getLetterDetailsFromNumber newLetterNumber
                         in
-                        LetterForm newLetterDetails.letter
+                        Route.LetterForm newLetterDetails.letter Route.Show
 
                     else
                         let
@@ -122,14 +117,16 @@ update msg model =
                             newLetterDetails =
                                 Alphabet.getLetterDetailsFromNumber newLetterNumber
                         in
-                        LetterForm newLetterDetails.letter
+                        Route.LetterForm newLetterDetails.letter Route.Show
             in
             ( { model
-                | page = newPage
-                , endAt = ( x, y )
+                | endAt = ( x, y )
               }
-            , Cmd.none
+            , Route.transitionFromPage model.page <| SetPage newPage
             )
+
+        SetPage page ->
+            ( { model | page = page }, Cmd.none )
 
 
 
@@ -139,7 +136,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     case model.page of
-        LetterForm letter ->
+        Route.LetterForm letter transition ->
             let
                 letterDetails =
                     Alphabet.getLetterDetailsFromLetter letter
@@ -155,7 +152,7 @@ view model =
                     [ text <| Debug.toString model ]
                 ]
 
-        Drawing letter ->
+        Route.Drawing letter transition ->
             let
                 letterDetails =
                     Alphabet.getLetterDetailsFromLetter letter
@@ -171,7 +168,7 @@ view model =
                     [ text letterDetails.word ]
                 ]
 
-        Nav ->
+        Route.Nav transition ->
             div [] [ text "this is the nav page" ]
 
 

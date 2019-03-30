@@ -43,7 +43,12 @@ type alias Word =
 
 
 type alias LetterDetails =
-    { letterText : LetterText, drawingLink : DrawingLink, word : Word, number : Int, letter : Letter }
+    { letterText : LetterText
+    , drawingLink : DrawingLink
+    , word : Word
+    , number : Int
+    , letter : Letter
+    }
 
 
 letterDetailsList : List LetterDetails
