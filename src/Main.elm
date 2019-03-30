@@ -69,7 +69,67 @@ update msg model =
             ( { model | moveAt = ( x, y ) }, Cmd.none )
 
         EndAt ( x, y ) ->
-            ( { model | endAt = ( x, y ) }, Cmd.none )
+            let
+                ( startX, startY ) =
+                    model.startAt
+
+                currentLetter =
+                    case model.page of
+                        LetterForm letter ->
+                            letter
+
+                        Drawing letter ->
+                            letter
+
+                        Nav ->
+                            Alphabet.A
+
+                newPage =
+                    if startX == x then
+                        case model.page of
+                            LetterForm letter ->
+                                Drawing currentLetter
+
+                            Drawing letter ->
+                                LetterForm currentLetter
+
+                            Nav ->
+                                Nav
+
+                    else if startX > x then
+                        let
+                            currentLetterDetails =
+                                Alphabet.getLetterDetailsFromLetter currentLetter
+                        in
+                        let
+                            newLetterNumber =
+                                currentLetterDetails.number + 1
+
+                            newLetterDetails =
+                                Alphabet.getLetterDetailsFromNumber newLetterNumber
+                        in
+                        LetterForm newLetterDetails.letter
+
+                    else
+                        let
+                            currentLetterDetails =
+                                Alphabet.getLetterDetailsFromLetter currentLetter
+                        in
+                        let
+                            newLetterNumber =
+                                currentLetterDetails.number - 1
+
+                            newLetterDetails =
+                                Alphabet.getLetterDetailsFromNumber newLetterNumber
+                        in
+                        LetterForm newLetterDetails.letter
+            in
+            ( { model
+                | page = newPage
+                , endAt = ( x, y )
+              }
+            , Cmd.none
+            )
 
 
 
@@ -82,7 +142,7 @@ view model =
         LetterForm letter ->
             let
                 letterDetails =
-                    Alphabet.getLetterDetails letter
+                    Alphabet.getLetterDetailsFromLetter letter
             in
             div
                 [ Touch.onStart (StartAt << touchCoordinates)
@@ -98,9 +158,13 @@ view model =
         Drawing letter ->
             let
                 letterDetails =
-                    Alphabet.getLetterDetails letter
+                    Alphabet.getLetterDetailsFromLetter letter
             in
-            div []
+            div
+                [ Touch.onStart (StartAt << touchCoordinates)
+                , Touch.onMove (MoveAt << touchCoordinates)
+                , Touch.onEnd (EndAt << touchCoordinates)
+                ]
                 [ h1 []
                     [ text letterDetails.drawingLink ]
                 , h1 []
