@@ -3,6 +3,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Data.Alphabet as Alphabet
 import Html exposing (Html, div, h1, text)
+import Html.Attributes exposing (class, style)
 import Html.Events.Extra.Touch as Touch
 import Route
 
@@ -77,56 +78,69 @@ update msg model =
                         Route.Drawing letter _ ->
                             letter
 
-                        Route.Nav _ ->
+                        _ ->
                             Alphabet.A
 
                 newPage =
-                    if startX == x then
-                        case model.page of
-                            Route.LetterForm _ _ ->
-                                Route.Drawing currentLetter Route.Show
-
-                            Route.Drawing _ _ ->
-                                Route.LetterForm currentLetter Route.Show
-
-                            Route.Nav _ ->
-                                Route.Nav Route.Show
-
-                    else if startX > x then
-                        let
-                            currentLetterDetails =
-                                Alphabet.getLetterDetailsFromLetter currentLetter
-
-                            newLetterNumber =
-                                currentLetterDetails.number + 1
-
-                            newLetterDetails =
-                                Alphabet.getLetterDetailsFromNumber newLetterNumber
-                        in
-                        Route.LetterForm newLetterDetails.letter Route.Show
-
-                    else
-                        let
-                            currentLetterDetails =
-                                Alphabet.getLetterDetailsFromLetter currentLetter
-                        in
-                        let
-                            newLetterNumber =
-                                currentLetterDetails.number - 1
-
-                            newLetterDetails =
-                                Alphabet.getLetterDetailsFromNumber newLetterNumber
-                        in
-                        Route.LetterForm newLetterDetails.letter Route.Show
+                    setNewPage model.page currentLetter startX x
             in
             ( { model
                 | endAt = ( x, y )
+                , page = Route.updatePageTransition model.page
               }
             , Route.transitionFromPage model.page <| SetPage newPage
             )
 
         SetPage page ->
-            ( { model | page = page }, Cmd.none )
+            ( { model
+                | page = page
+                , startAt = ( 0, 0 )
+                , moveAt = ( 0, 0 )
+                , endAt = ( 0, 0 )
+              }
+            , Cmd.none
+            )
+
+
+setNewPage : Route.Page -> Alphabet.Letter -> Float -> Float -> Route.Page
+setNewPage page currentLetter startX x =
+    if startX == x then
+        case page of
+            Route.LetterForm _ _ ->
+                Route.Drawing currentLetter Route.Show
+
+            Route.Drawing _ _ ->
+                Route.LetterForm currentLetter Route.Show
+
+            Route.Nav _ ->
+                Route.Nav Route.Show
+
+    else if startX > x then
+        let
+            currentLetterDetails =
+                Alphabet.getLetterDetailsFromLetter currentLetter
+
+            newLetterNumber =
+                currentLetterDetails.number + 1
+
+            newLetterDetails =
+                Alphabet.getLetterDetailsFromNumber newLetterNumber
+        in
+        Route.LetterForm newLetterDetails.letter Route.Show
+
+    else
+        let
+            currentLetterDetails =
+                Alphabet.getLetterDetailsFromLetter currentLetter
+        in
+        let
+            newLetterNumber =
+                currentLetterDetails.number - 1
+
+            newLetterDetails =
+                Alphabet.getLetterDetailsFromNumber newLetterNumber
+        in
+        Route.LetterForm newLetterDetails.letter Route.Show
 
 
 
@@ -140,13 +154,35 @@ view model =
             let
                 letterDetails =
                     Alphabet.getLetterDetailsFromLetter letter
+
+                ( startX, _ ) =
+                    model.startAt
+
+                ( moveX, _ ) =
+                    model.moveAt
+
+                xDiff =
+                    if moveX == 0 then
+                        0
+
+                    else if startX - moveX < 0 then
+                        10
+
+                    else
+                        -10
             in
+            {--only apply transition class when moved more than a certain amount of pixels
+            , add the remove class depending on which way the letters are going --}
             div
                 [ Touch.onStart (StartAt << touchCoordinates)
                 , Touch.onMove (MoveAt << touchCoordinates)
                 , Touch.onEnd (EndAt << touchCoordinates)
                 ]
-                [ h1 []
+                [ h1
+                    [ style "transform" ("translate(" ++ String.fromFloat xDiff ++ "px, 0px)")
+                    , style "transition" "transform 0.35s ease"
+                    , class <| Route.transitionToString transition
+                    ]
                     [ text letterDetails.letterText ]
                 , h1 []
                     [ text <| Debug.toString model ]
@@ -162,7 +198,7 @@ view model =
                 , Touch.onMove (MoveAt << touchCoordinates)
                 , Touch.onEnd (EndAt << touchCoordinates)
                 ]
-                [ h1 []
+                [ h1 [ class <| Route.transitionToString transition ]
                     [ text letterDetails.drawingLink ]
                 , h1 []
                     [ text letterDetails.word ]

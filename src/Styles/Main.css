@@ -1,0 +1,82 @@
+@import "./Reset.css";
+@import "./Global.css";
+
+/* Global Styles */
+
+/* this is only temporary */
+div h1 {
+  padding: 20px 0;
+  text-align: center;
+}
+/* and needs to be changed during styling */
+
+/* remove */
+
+/* remove current letter to show previous letter */
+.remove-toPreviousLetter {
+  animation-name: remove-toPreviousLetter;
+  animation-duration: 0.65s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes remove-toPreviousLetter {
+  0% {
+    transform: translate(10px, 0px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(60px, 0px);
+    opacity: 0;
+  }
+}
+
+/* remove current letter to show next letter */
+.remove-toNextLetter {
+  animation-name: remove-toNextLetter;
+  animation-duration: 0.65s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes remove-toNextLetter {
+  0% {
+    transform: translate(10px, 0px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(60px, 0px);
+    opacity: 0;
+  }
+}
+
+.remove {
+  animation-name: remove;
+  animation-duration: 0.35s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes remove {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.show {
+  animation-name: show;
+  animation-duration: 0.35s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

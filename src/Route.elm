@@ -2,6 +2,7 @@ module Route exposing
     ( Page(..)
     , Transition(..)
     , transitionFromPage
+    , transitionToString
     , updatePageTransition
     )
 
@@ -23,6 +24,16 @@ type Page
 type Transition
     = Show
     | Remove
+
+
+transitionToString : Transition -> String
+transitionToString transition =
+    case transition of
+        Show ->
+            "show"
+
+        Remove ->
+            "remove"
 
 
 transitionFromPage : Page -> msg -> Cmd msg
@@ -57,7 +68,7 @@ pageTransitionTime : Page -> Float
 pageTransitionTime page =
     case page of
         LetterForm _ _ ->
-            650
+            350
 
         Drawing _ _ ->
             250
