@@ -1,3 +1,40 @@
 body {
   font-family: "Roboto", sans-serif;
 }
+
+/* remove card */
+
+.remove {
+  animation-name: remove;
+  animation-duration: 0.35s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes remove {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* show card */
+
+.show {
+  animation-name: show;
+  animation-duration: 0.35s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

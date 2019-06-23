@@ -1,4 +1,10 @@
-module Data.Alphabet exposing (Letter(..), getLetterDetailsFromLetter, getLetterDetailsFromNumber, letterDetailsList)
+module Data.Alphabet exposing
+    ( Letter(..)
+    , getLetterDetailsFromLetter
+    , getLetterDetailsFromNumber
+    , getLetterText
+    , letterDetailsList
+    )
 
 
 type Letter
@@ -101,3 +107,8 @@ getLetterDetailsFromLetter letter =
         |> List.filter (\ld -> letter == ld.letter)
         |> List.head
         |> Maybe.withDefault defaultLetter
+
+
+getLetterText : LetterDetails -> String
+getLetterText ld =
+    ld.letterText

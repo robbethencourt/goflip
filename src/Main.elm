@@ -2,8 +2,9 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Data.Alphabet as Alphabet
-import Html exposing (Html, div, h1, text)
+import Html exposing (Html, div, h1, header, li, nav, text, ul)
 import Html.Attributes exposing (class, style)
+import Html.Events exposing (onClick)
 import Html.Events.Extra.Touch as Touch
 import Route
 
@@ -28,6 +29,7 @@ main =
 
 type alias Model =
     { page : Route.Page
+    , previousPage : Route.Page
     , startAt : ( Float, Float )
     , moveAt : ( Float, Float )
     , endAt : ( Float, Float )
@@ -37,6 +39,7 @@ type alias Model =
 init : () -> ( Model, Cmd Msg )
 init flags =
     ( { page = Route.LetterForm Alphabet.A Route.Show
+      , previousPage = Route.LetterForm Alphabet.A Route.Show
       , startAt = ( 0, 0 )
       , moveAt = ( 0, 0 )
       , endAt = ( 0, 0 )
@@ -54,6 +57,7 @@ type Msg
     | MoveAt ( Float, Float )
     | EndAt ( Float, Float )
     | SetPage Route.Page
+    | ToggleNav
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -99,6 +103,20 @@ update msg model =
                 , endAt = ( 0, 0 )
               }
             , Cmd.none
+            )
+
+        ToggleNav ->
+            let
+                newPage =
+                    case model.page of
+                        Route.Nav transition ->
+                            model.previousPage
+
+                        _ ->
+                            Route.Nav Route.Show
+            in
+            ( { model | previousPage = model.page }
+            , Route.transitionFromPage model.page <| SetPage newPage
             )
 
 
@@ -149,63 +167,80 @@ setNewPage page currentLetter startX x =
 
 view : Model -> Html Msg
 view model =
-    case model.page of
-        Route.LetterForm letter transition ->
-            let
-                letterDetails =
-                    Alphabet.getLetterDetailsFromLetter letter
+    div []
+        [ header []
+            [ div [ class "logo" ] [ text "logo" ]
+            , div [ class "nav-link", onClick ToggleNav ] [ text "nav" ]
+            ]
+        , case model.page of
+            Route.LetterForm letter transition ->
+                let
+                    letterDetails =
+                        Alphabet.getLetterDetailsFromLetter letter
 
-                ( startX, _ ) =
-                    model.startAt
+                    ( startX, _ ) =
+                        model.startAt
 
-                ( moveX, _ ) =
-                    model.moveAt
+                    ( moveX, _ ) =
+                        model.moveAt
 
-                xDiff =
-                    if moveX == 0 then
-                        0
+                    xDiff =
+                        if moveX == 0 then
+                            0
 
-                    else if startX - moveX < 0 then
-                        10
+                        else if startX - moveX < 0 then
+                            10
 
-                    else
-                        -10
-            in
-            {--only apply transition class when moved more than a certain amount of pixels
-            , add the remove class depending on which way the letters are going --}
-            div
-                [ Touch.onStart (StartAt << touchCoordinates)
-                , Touch.onMove (MoveAt << touchCoordinates)
-                , Touch.onEnd (EndAt << touchCoordinates)
-                ]
-                [ h1
-                    [ style "transform" ("translate(" ++ String.fromFloat xDiff ++ "px, 0px)")
-                    , style "transition" "transform 0.35s ease"
-                    , class <| Route.transitionToString transition
+                        else
+                            -10
+                in
+                {--only apply transition class when moved more than a certain amount of pixels
+                , add the remove class depending on which way the letters are going --}
+                div
+                    [ Touch.onStart (StartAt << touchCoordinates)
+                    , Touch.onMove (MoveAt << touchCoordinates)
+                    , Touch.onEnd (EndAt << touchCoordinates)
                     ]
-                    [ text letterDetails.letterText ]
-                , h1 []
-                    [ text <| Debug.toString model ]
-                ]
+                    [ h1
+                        [ style "transform" ("translate(" ++ String.fromFloat xDiff ++ "px, 0px)")
+                        , style "transition" "transform 0.35s ease"
+                        , class <| Route.transitionToString transition
+                        ]
+                        [ text letterDetails.letterText ]
+                    , h1 []
+                        [ text <| Debug.toString model ]
+                    ]
 
-        Route.Drawing letter transition ->
-            let
-                letterDetails =
-                    Alphabet.getLetterDetailsFromLetter letter
-            in
-            div
-                [ Touch.onStart (StartAt << touchCoordinates)
-                , Touch.onMove (MoveAt << touchCoordinates)
-                , Touch.onEnd (EndAt << touchCoordinates)
-                ]
-                [ h1 [ class <| Route.transitionToString transition ]
-                    [ text letterDetails.drawingLink ]
-                , h1 []
-                    [ text letterDetails.word ]
-                ]
+            Route.Drawing letter transition ->
+                let
+                    letterDetails =
+                        Alphabet.getLetterDetailsFromLetter letter
+                in
+                div
+                    [ Touch.onStart (StartAt << touchCoordinates)
+                    , Touch.onMove (MoveAt << touchCoordinates)
+                    , Touch.onEnd (EndAt << touchCoordinates)
+                    ]
+                    [ h1 [ class <| Route.transitionToString transition ]
+                        [ text letterDetails.drawingLink ]
+                    , h1 []
+                        [ text letterDetails.word ]
+                    ]
 
-        Route.Nav transition ->
-            div [] [ text "this is the nav page" ]
+            Route.Nav transition ->
+                nav [ class <| Route.transitionToString transition ]
+                    [ ul []
+                        (Alphabet.letterDetailsList
+                            |> List.map Alphabet.getLetterText
+                            |> List.map createListElement
+                        )
+                    ]
+        ]
+
+
+createListElement : String -> Html Msg
+createListElement string =
+    li [] [ text string ]
 
 
 touchCoordinates : Touch.Event -> ( Float, Float )
