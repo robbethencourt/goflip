@@ -115,7 +115,10 @@ update msg model =
                         _ ->
                             Route.Nav Route.Show
             in
-            ( { model | previousPage = model.page }
+            ( { model
+                | previousPage = model.page
+                , page = Route.updatePageTransition model.page
+              }
             , Route.transitionFromPage model.page <| SetPage newPage
             )
 
@@ -228,7 +231,7 @@ view model =
                     ]
 
             Route.Nav transition ->
-                nav [ class <| Route.transitionToString transition ]
+                nav [ Route.transitionToString transition ++ "-nav" |> class ]
                     [ ul []
                         (Alphabet.letterDetailsList
                             |> List.map Alphabet.getLetterText
