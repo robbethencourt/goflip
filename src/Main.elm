@@ -58,6 +58,7 @@ type Msg
     | EndAt ( Float, Float )
     | SetPage Route.Page
     | ToggleNav
+    | DisplayLetterFromNav Alphabet.LetterDetails
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -118,6 +119,17 @@ update msg model =
             ( { model
                 | previousPage = model.page
                 , page = Route.updatePageTransition model.page
+              }
+            , Route.transitionFromPage model.page <| SetPage newPage
+            )
+
+        DisplayLetterFromNav ld ->
+            let
+                newPage =
+                    Route.LetterForm ld.letter Route.Show
+            in
+            ( { model
+                | page = Route.updatePageTransition model.page
               }
             , Route.transitionFromPage model.page <| SetPage newPage
             )
@@ -233,17 +245,16 @@ view model =
             Route.Nav transition ->
                 nav [ Route.transitionToString transition ++ "-nav" |> class ]
                     [ ul []
-                        (Alphabet.letterDetailsList
-                            |> List.map Alphabet.getLetterText
-                            |> List.map createListElement
-                        )
+                        (List.map createListElement Alphabet.letterDetailsList)
+                    , h1 []
+                        [ text <| Debug.toString model ]
                     ]
         ]
 
 
-createListElement : String -> Html Msg
-createListElement string =
-    li [] [ text string ]
+createListElement : Alphabet.LetterDetails -> Html Msg
+createListElement ld =
+    li [ onClick <| DisplayLetterFromNav ld ] [ text <| Alphabet.getLetterText ld ]
 
 
 touchCoordinates : Touch.Event -> ( Float, Float )

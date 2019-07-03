@@ -1,5 +1,6 @@
 module Data.Alphabet exposing
     ( Letter(..)
+    , LetterDetails
     , getLetterDetailsFromLetter
     , getLetterDetailsFromNumber
     , getLetterText
