@@ -2,7 +2,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Data.Alphabet as Alphabet
-import Html exposing (Html, div, h1, header, li, nav, text, ul)
+import Html exposing (Html, div, header, li, nav, p, text, ul)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import Html.Events.Extra.Touch as Touch
@@ -184,9 +184,7 @@ view : Model -> Html Msg
 view model =
     div []
         [ header []
-            [ div [ class "logo" ] [ text "logo" ]
-            , div [ class "nav-link", onClick ToggleNav ] [ text "nav" ]
-            ]
+            [ div [ class "nav-link", onClick ToggleNav ] [ text "nav" ] ]
         , case model.page of
             Route.LetterForm letter transition ->
                 let
@@ -212,18 +210,17 @@ view model =
                 {--only apply transition class when moved more than a certain amount of pixels
                 , add the remove class depending on which way the letters are going --}
                 div
-                    [ Touch.onStart (StartAt << touchCoordinates)
+                    [ class <| "letter-container " ++ Route.transitionToString transition
+                    , Touch.onStart (StartAt << touchCoordinates)
                     , Touch.onMove (MoveAt << touchCoordinates)
                     , Touch.onEnd (EndAt << touchCoordinates)
                     ]
-                    [ h1
+                    [ p
                         [ style "transform" ("translate(" ++ String.fromFloat xDiff ++ "px, 0px)")
                         , style "transition" "transform 0.35s ease"
-                        , class <| Route.transitionToString transition
+                        , class "letterform"
                         ]
                         [ text letterDetails.letterText ]
-                    , h1 []
-                        [ text <| Debug.toString model ]
                     ]
 
             Route.Drawing letter transition ->
@@ -232,22 +229,21 @@ view model =
                         Alphabet.getLetterDetailsFromLetter letter
                 in
                 div
-                    [ Touch.onStart (StartAt << touchCoordinates)
+                    [ class <| "letter-container " ++ Route.transitionToString transition
+                    , Touch.onStart (StartAt << touchCoordinates)
                     , Touch.onMove (MoveAt << touchCoordinates)
                     , Touch.onEnd (EndAt << touchCoordinates)
                     ]
-                    [ h1 [ class <| Route.transitionToString transition ]
+                    [ p [ class "drawing" ]
                         [ text letterDetails.drawingLink ]
-                    , h1 []
+                    , p [ class "word" ]
                         [ text letterDetails.word ]
                     ]
 
             Route.Nav transition ->
-                nav [ Route.transitionToString transition ++ "-nav" |> class ]
+                nav [ class <| Route.transitionToString transition ++ "-nav" ]
                     [ ul []
                         (List.map createListElement Alphabet.letterDetailsList)
-                    , h1 []
-                        [ text <| Debug.toString model ]
                     ]
         ]
 

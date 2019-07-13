@@ -1,12 +1,5 @@
 @import "./Reset.css";
 @import "./Global.css";
+@import "./Header.css";
 @import "./Nav.css";
-
-/* Global Styles */
-
-/* this is only temporary */
-div h1 {
-  padding: 20px 0;
-  text-align: center;
-}
-/* and needs to be changed during styling */
+@import "./Alphabet";

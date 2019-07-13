@@ -1,0 +1,23 @@
+/* Alphabet - main section of page */
+
+.letter-container {
+  height: 85vh;
+  padding: 20px;
+  text-align: center;
+}
+
+/* letterform */
+
+.Letterform {
+  font-size: 150px;
+}
+
+/* drawing */
+
+/* word - drawing description */
+
+.word {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  font-size: 25px;
+}
