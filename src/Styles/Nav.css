@@ -1,0 +1,39 @@
+/* remove nav */
+
+.remove-nav {
+  animation-name: remove-nav;
+  animation-duration: 0.35s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes remove-nav {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* show nav */
+
+.show-nav {
+  animation-name: show-nav;
+  animation-duration: 0.35s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show-nav {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+nav ul li {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+}
