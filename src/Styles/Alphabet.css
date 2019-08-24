@@ -9,7 +9,12 @@
 /* letterform */
 
 .Letterform {
+  padding-right: 5px;
   font-size: 150px;
+}
+
+.lowercase {
+  font-size: 75px;
 }
 
 /* drawing */
