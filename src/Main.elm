@@ -2,8 +2,8 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Data.Alphabet as Alphabet
-import Html exposing (Html, div, header, li, nav, p, span, text, ul)
-import Html.Attributes exposing (class, style)
+import Html exposing (Html, div, header, img, li, nav, p, span, text, ul)
+import Html.Attributes exposing (class, src, style)
 import Html.Events exposing (onClick)
 import Html.Events.Extra.Touch as Touch
 import Route
@@ -13,7 +13,7 @@ import Route
 -- Main
 
 
-main : Program () Model Msg
+main : Program String Model Msg
 main =
     Browser.element
         { init = init
@@ -33,16 +33,18 @@ type alias Model =
     , startAt : ( Float, Float )
     , moveAt : ( Float, Float )
     , endAt : ( Float, Float )
+    , flags : String
     }
 
 
-init : () -> ( Model, Cmd Msg )
+init : String -> ( Model, Cmd Msg )
 init flags =
     ( { page = Route.LetterForm Alphabet.A Route.Show
       , previousPage = Route.LetterForm Alphabet.A Route.Show
       , startAt = ( 0, 0 )
       , moveAt = ( 0, 0 )
       , endAt = ( 0, 0 )
+      , flags = flags
       }
     , Cmd.none
     )
@@ -183,7 +185,9 @@ setNewPage page currentLetter startX x =
 view : Model -> Html Msg
 view model =
     div []
-        [ header []
+        [ div [] [ text <| Debug.toString model.flags ]
+        , div [] [ img [ src model.flags ] [] ]
+        , header []
             [ div [ class "nav-link", onClick ToggleNav ] [ text "nav" ] ]
         , case model.page of
             Route.LetterForm letter transition ->
@@ -237,7 +241,7 @@ view model =
                     , Touch.onEnd (EndAt << touchCoordinates)
                     ]
                     [ p [ class "drawing" ]
-                        [ text letterDetails.drawingLink ]
+                        [ img [ src letterDetails.drawingLink ] [] ]
                     , p [ class "word" ]
                         [ text letterDetails.word ]
                     ]

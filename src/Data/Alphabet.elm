@@ -61,7 +61,7 @@ type alias LetterDetails =
 
 letterDetailsList : List LetterDetails
 letterDetailsList =
-    [ { letterText = "A", letterTextLowercase = "a", drawingLink = "a drawing link", word = "Apple", number = 1, letter = A }
+    [ { letterText = "A", letterTextLowercase = "a", drawingLink = "./images/apple.svg", word = "Apple", number = 1, letter = A }
     , { letterText = "B", letterTextLowercase = "b", drawingLink = "a drawing link", word = "Banana", number = 2, letter = B }
     , { letterText = "C", letterTextLowercase = "c", drawingLink = "a drawing link", word = "Carrot", number = 3, letter = C }
     , { letterText = "D", letterTextLowercase = "d", drawingLink = "a drawing link", word = "Date", number = 4, letter = D }
