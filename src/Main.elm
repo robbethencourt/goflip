@@ -13,7 +13,7 @@ import Route
 -- Main
 
 
-main : Program String Model Msg
+main : Program () Model Msg
 main =
     Browser.element
         { init = init
@@ -33,18 +33,16 @@ type alias Model =
     , startAt : ( Float, Float )
     , moveAt : ( Float, Float )
     , endAt : ( Float, Float )
-    , flags : String
     }
 
 
-init : String -> ( Model, Cmd Msg )
+init : () -> ( Model, Cmd Msg )
 init flags =
     ( { page = Route.LetterForm Alphabet.A Route.Show
       , previousPage = Route.LetterForm Alphabet.A Route.Show
       , startAt = ( 0, 0 )
       , moveAt = ( 0, 0 )
       , endAt = ( 0, 0 )
-      , flags = flags
       }
     , Cmd.none
     )
@@ -185,9 +183,7 @@ setNewPage page currentLetter startX x =
 view : Model -> Html Msg
 view model =
     div []
-        [ div [] [ text <| Debug.toString model.flags ]
-        , div [] [ img [ src model.flags ] [] ]
-        , header []
+        [ header []
             [ div [ class "nav-link", onClick ToggleNav ] [ text "nav" ] ]
         , case model.page of
             Route.LetterForm letter transition ->
@@ -241,7 +237,7 @@ view model =
                     , Touch.onEnd (EndAt << touchCoordinates)
                     ]
                     [ p [ class "drawing" ]
-                        [ img [ src letterDetails.drawingLink ] [] ]
+                        [ Alphabet.getDrawingSvg letter ]
                     , p [ class "word" ]
                         [ text letterDetails.word ]
                     ]
