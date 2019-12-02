@@ -9,6 +9,7 @@ module Data.Alphabet exposing
     )
 
 import Data.Asvg as Asvg
+import Data.Bsvg as Bsvg
 import Html exposing (Html, div)
 
 
@@ -126,7 +127,7 @@ getDrawingSvg letter =
             Asvg.drawing
 
         B ->
-            div [] []
+            Bsvg.drawing
 
         C ->
             div [] []
