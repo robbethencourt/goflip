@@ -9,7 +9,12 @@
 /* letterform */
 
 .Letterform {
+  padding-right: 5px;
   font-size: 150px;
+}
+
+.lowercase {
+  font-size: 75px;
 }
 
 /* drawing */
@@ -20,4 +25,8 @@
   padding-top: 50px;
   padding-bottom: 50px;
   font-size: 25px;
+}
+
+svg.drawing {
+  width: 30%;
 }

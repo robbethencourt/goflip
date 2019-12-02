@@ -2,8 +2,8 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Data.Alphabet as Alphabet
-import Html exposing (Html, div, header, li, nav, p, text, ul)
-import Html.Attributes exposing (class, style)
+import Html exposing (Html, div, header, img, li, nav, p, span, text, ul)
+import Html.Attributes exposing (class, src, style)
 import Html.Events exposing (onClick)
 import Html.Events.Extra.Touch as Touch
 import Route
@@ -220,7 +220,9 @@ view model =
                         , style "transition" "transform 0.35s ease"
                         , class "letterform"
                         ]
-                        [ text letterDetails.letterText ]
+                        [ span [ class "letterform" ] [ text letterDetails.letterText ]
+                        , span [ class "lowercase" ] [ text letterDetails.letterTextLowercase ]
+                        ]
                     ]
 
             Route.Drawing letter transition ->
@@ -235,7 +237,7 @@ view model =
                     , Touch.onEnd (EndAt << touchCoordinates)
                     ]
                     [ p [ class "drawing" ]
-                        [ text letterDetails.drawingLink ]
+                        [ Alphabet.getDrawingSvg letter ]
                     , p [ class "word" ]
                         [ text letterDetails.word ]
                     ]

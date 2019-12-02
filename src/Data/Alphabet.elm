@@ -1,11 +1,15 @@
 module Data.Alphabet exposing
     ( Letter(..)
     , LetterDetails
+    , getDrawingSvg
     , getLetterDetailsFromLetter
     , getLetterDetailsFromNumber
     , getLetterText
     , letterDetailsList
     )
+
+import Data.Asvg as Asvg
+import Html exposing (Html, div)
 
 
 type Letter
@@ -51,7 +55,7 @@ type alias Word =
 
 type alias LetterDetails =
     { letterText : LetterText
-    , drawingLink : DrawingLink
+    , letterTextLowercase : LetterText
     , word : Word
     , number : Int
     , letter : Letter
@@ -60,38 +64,38 @@ type alias LetterDetails =
 
 letterDetailsList : List LetterDetails
 letterDetailsList =
-    [ { letterText = "A", drawingLink = "a drawing link", word = "apple", number = 1, letter = A }
-    , { letterText = "B", drawingLink = "a drawing link", word = "banana", number = 2, letter = B }
-    , { letterText = "C", drawingLink = "a drawing link", word = "carrot", number = 3, letter = C }
-    , { letterText = "D", drawingLink = "a drawing link", word = "date", number = 4, letter = D }
-    , { letterText = "E", drawingLink = "a drawing link", word = "eggplant", number = 5, letter = E }
-    , { letterText = "F", drawingLink = "a drawing link", word = "farro", number = 6, letter = F }
-    , { letterText = "G", drawingLink = "a drawing link", word = "grapes", number = 7, letter = G }
-    , { letterText = "H", drawingLink = "a drawing link", word = "?", number = 8, letter = H }
-    , { letterText = "I", drawingLink = "a drawing link", word = "?", number = 9, letter = I }
-    , { letterText = "J", drawingLink = "a drawing link", word = "jalapeno", number = 10, letter = J }
-    , { letterText = "K", drawingLink = "a drawing link", word = "kale", number = 11, letter = K }
-    , { letterText = "L", drawingLink = "a drawing link", word = "lime", number = 12, letter = L }
-    , { letterText = "M", drawingLink = "a drawing link", word = "mango", number = 13, letter = M }
-    , { letterText = "N", drawingLink = "a drawing link", word = "?", number = 14, letter = N }
-    , { letterText = "O", drawingLink = "a drawing link", word = "orange", number = 15, letter = O }
-    , { letterText = "P", drawingLink = "a drawing link", word = "peas", number = 16, letter = P }
-    , { letterText = "Q", drawingLink = "a drawing link", word = "Quinoa", number = 17, letter = Q }
-    , { letterText = "R", drawingLink = "a drawing link", word = "radish", number = 18, letter = R }
-    , { letterText = "S", drawingLink = "a drawing link", word = "sweet potato", number = 19, letter = S }
-    , { letterText = "T", drawingLink = "a drawing link", word = "tomato", number = 20, letter = T }
-    , { letterText = "U", drawingLink = "a drawing link", word = "?", number = 21, letter = U }
-    , { letterText = "V", drawingLink = "a drawing link", word = "?", number = 22, letter = V }
-    , { letterText = "W", drawingLink = "a drawing link", word = "watermelon", number = 23, letter = W }
-    , { letterText = "X", drawingLink = "a drawing link", word = "?", number = 24, letter = X }
-    , { letterText = "Y", drawingLink = "a drawing link", word = "yam", number = 25, letter = Y }
-    , { letterText = "Z", drawingLink = "a drawing link", word = "zucchini", number = 26, letter = Z }
+    [ { letterText = "A", letterTextLowercase = "a", word = "Apple", number = 1, letter = A }
+    , { letterText = "B", letterTextLowercase = "b", word = "Banana", number = 2, letter = B }
+    , { letterText = "C", letterTextLowercase = "c", word = "Carrot", number = 3, letter = C }
+    , { letterText = "D", letterTextLowercase = "d", word = "Date", number = 4, letter = D }
+    , { letterText = "E", letterTextLowercase = "e", word = "Eggplant", number = 5, letter = E }
+    , { letterText = "F", letterTextLowercase = "f", word = "Fennel", number = 6, letter = F }
+    , { letterText = "G", letterTextLowercase = "g", word = "Guava", number = 7, letter = G }
+    , { letterText = "H", letterTextLowercase = "h", word = "Honeydew", number = 8, letter = H }
+    , { letterText = "I", letterTextLowercase = "i", word = "Ilama", number = 9, letter = I }
+    , { letterText = "J", letterTextLowercase = "j", word = "Jalapeno", number = 10, letter = J }
+    , { letterText = "K", letterTextLowercase = "k", word = "Kale", number = 11, letter = K }
+    , { letterText = "L", letterTextLowercase = "l", word = "Lime", number = 12, letter = L }
+    , { letterText = "M", letterTextLowercase = "m", word = "Mango", number = 13, letter = M }
+    , { letterText = "N", letterTextLowercase = "n", word = "Nectarine", number = 14, letter = N }
+    , { letterText = "O", letterTextLowercase = "o", word = "Orange", number = 15, letter = O }
+    , { letterText = "P", letterTextLowercase = "p", word = "Peas", number = 16, letter = P }
+    , { letterText = "Q", letterTextLowercase = "q", word = "Quince", number = 17, letter = Q }
+    , { letterText = "R", letterTextLowercase = "r", word = "Radish", number = 18, letter = R }
+    , { letterText = "S", letterTextLowercase = "s", word = "Strawberry", number = 19, letter = S }
+    , { letterText = "T", letterTextLowercase = "t", word = "Tomato", number = 20, letter = T }
+    , { letterText = "U", letterTextLowercase = "u", word = "Ugni", number = 21, letter = U }
+    , { letterText = "V", letterTextLowercase = "v", word = "Voavanga", number = 22, letter = V }
+    , { letterText = "W", letterTextLowercase = "w", word = "Watermelon", number = 23, letter = W }
+    , { letterText = "X", letterTextLowercase = "x", word = "Xigua", number = 24, letter = X }
+    , { letterText = "Y", letterTextLowercase = "y", word = "Yucca", number = 25, letter = Y }
+    , { letterText = "Z", letterTextLowercase = "z", word = "Zucchini", number = 26, letter = Z }
     ]
 
 
 defaultLetter : LetterDetails
 defaultLetter =
-    { letterText = "A", drawingLink = "a drawing link", word = "apple", number = 1, letter = A }
+    { letterText = "A", letterTextLowercase = "a", word = "apple", number = 1, letter = A }
 
 
 getLetterDetailsFromNumber : Int -> LetterDetails
@@ -113,3 +117,85 @@ getLetterDetailsFromLetter letter =
 getLetterText : LetterDetails -> String
 getLetterText ld =
     ld.letterText
+
+
+getDrawingSvg : Letter -> Html msg
+getDrawingSvg letter =
+    case letter of
+        A ->
+            Asvg.drawing
+
+        B ->
+            div [] []
+
+        C ->
+            div [] []
+
+        D ->
+            div [] []
+
+        E ->
+            div [] []
+
+        F ->
+            div [] []
+
+        G ->
+            div [] []
+
+        H ->
+            div [] []
+
+        I ->
+            div [] []
+
+        J ->
+            div [] []
+
+        K ->
+            div [] []
+
+        L ->
+            div [] []
+
+        M ->
+            div [] []
+
+        N ->
+            div [] []
+
+        O ->
+            div [] []
+
+        P ->
+            div [] []
+
+        Q ->
+            div [] []
+
+        R ->
+            div [] []
+
+        S ->
+            div [] []
+
+        T ->
+            div [] []
+
+        U ->
+            div [] []
+
+        V ->
+            div [] []
+
+        W ->
+            div [] []
+
+        X ->
+            div [] []
+
+        Y ->
+            div [] []
+
+        Z ->
+            div [] []
