@@ -1,3 +1,43 @@
+/* nav icon */
+.nav-link {
+  height: 45px;
+  float: right;
+}
+
+.nav-icon {
+  padding: 0.5em;
+  width: 35px;
+}
+
+.nav-icon:after,
+.nav-icon:before,
+.lettuce,
+.tomato,
+.onion {
+  content: "";
+  display: block;
+  height: 5px;
+  margin: 0 0 2px 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-icon:after,
+.nav-icon:before {
+  background-color: #f6bb33;
+}
+
+.lettuce {
+  background-color: #78d65e;
+}
+
+.tomato {
+  background-color: #f66c6c;
+}
+
+.onion {
+  background-color: #ad55e7;
+}
+
 /* remove nav */
 
 .remove-nav {

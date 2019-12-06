@@ -184,7 +184,14 @@ view : Model -> Html Msg
 view model =
     div []
         [ header []
-            [ div [ class "nav-link", onClick ToggleNav ] [ text "nav" ] ]
+            [ div [ class "nav-link", onClick ToggleNav ]
+                [ div [ class "nav-icon" ]
+                    [ div [ class "lettuce" ] []
+                    , div [ class "tomato" ] []
+                    , div [ class "onion" ] []
+                    ]
+                ]
+            ]
         , case model.page of
             Route.LetterForm letter transition ->
                 let
@@ -236,10 +243,12 @@ view model =
                     , Touch.onMove (MoveAt << touchCoordinates)
                     , Touch.onEnd (EndAt << touchCoordinates)
                     ]
-                    [ p [ class "drawing" ]
-                        [ Alphabet.getDrawingSvg letter ]
-                    , p [ class "word" ]
-                        [ text letterDetails.word ]
+                    [ div [ class "drawing-word-container" ]
+                        [ p [ class "drawing" ]
+                            [ Alphabet.getDrawingSvg letter ]
+                        , p [ class "word" ]
+                            [ text letterDetails.word ]
+                        ]
                     ]
 
             Route.Nav transition ->

@@ -117,7 +117,7 @@ getLetterDetailsFromLetter letter =
 
 getLetterText : LetterDetails -> String
 getLetterText ld =
-    ld.letterText
+    ld.letterText ++ " " ++ ld.letterTextLowercase
 
 
 getDrawingSvg : Letter -> Html msg

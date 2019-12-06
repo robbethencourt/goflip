@@ -1,9 +1,10 @@
 /* Alphabet - main section of page */
 
 .letter-container {
-  height: 85vh;
-  padding: 20px;
-  text-align: center;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* letterform */
@@ -19,6 +20,10 @@
 
 /* drawing */
 
+.drawing-word-container {
+  text-align: center;
+}
+
 /* word - drawing description */
 
 .word {
@@ -28,5 +33,5 @@
 }
 
 svg.drawing {
-  width: 30%;
+  width: 90%;
 }
