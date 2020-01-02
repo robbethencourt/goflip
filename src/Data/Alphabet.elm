@@ -12,6 +12,9 @@ import Data.Asvg as Asvg
 import Data.Bsvg as Bsvg
 import Data.Csvg as Csvg
 import Data.Dsvg as Dsvg
+import Data.Esvg as Esvg
+import Data.Fsvg as Fsvg
+import Data.Gsvg as Gsvg
 import Html exposing (Html, div)
 
 
@@ -138,13 +141,13 @@ getDrawingSvg letter =
             Dsvg.drawing
 
         E ->
-            div [] []
+            Esvg.drawing
 
         F ->
-            div [] []
+            Fsvg.drawing
 
         G ->
-            div [] []
+            Gsvg.drawing
 
         H ->
             div [] []
