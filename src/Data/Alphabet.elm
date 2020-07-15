@@ -15,7 +15,26 @@ import Data.Dsvg as Dsvg
 import Data.Esvg as Esvg
 import Data.Fsvg as Fsvg
 import Data.Gsvg as Gsvg
-import Html exposing (Html, div)
+import Data.Hsvg as Hsvg
+import Data.Isvg as Isvg
+import Data.Jsvg as Jsvg
+import Data.Ksvg as Ksvg
+import Data.Lsvg as Lsvg
+import Data.Msvg as Msvg
+import Data.Nsvg as Nsvg
+import Data.Osvg as Osvg
+import Data.Psvg as Psvg
+import Data.Qsvg as Qsvg
+import Data.Rsvg as Rsvg
+import Data.Ssvg as Ssvg
+import Data.Tsvg as Tsvg
+import Data.Usvg as Usvg
+import Data.Vsvg as Vsvg
+import Data.Wsvg as Wsvg
+import Data.Xsvg as Xsvg
+import Data.Ysvg as Ysvg
+import Data.Zsvg as Zsvg
+import Html exposing (Html)
 
 
 type Letter
@@ -48,10 +67,6 @@ type Letter
 
 
 type alias LetterText =
-    String
-
-
-type alias DrawingLink =
     String
 
 
@@ -150,58 +165,58 @@ getDrawingSvg letter =
             Gsvg.drawing
 
         H ->
-            div [] []
+            Hsvg.drawing
 
         I ->
-            div [] []
+            Isvg.drawing
 
         J ->
-            div [] []
+            Jsvg.drawing
 
         K ->
-            div [] []
+            Ksvg.drawing
 
         L ->
-            div [] []
+            Lsvg.drawing
 
         M ->
-            div [] []
+            Msvg.drawing
 
         N ->
-            div [] []
+            Nsvg.drawing
 
         O ->
-            div [] []
+            Osvg.drawing
 
         P ->
-            div [] []
+            Psvg.drawing
 
         Q ->
-            div [] []
+            Qsvg.drawing
 
         R ->
-            div [] []
+            Rsvg.drawing
 
         S ->
-            div [] []
+            Ssvg.drawing
 
         T ->
-            div [] []
+            Tsvg.drawing
 
         U ->
-            div [] []
+            Usvg.drawing
 
         V ->
-            div [] []
+            Vsvg.drawing
 
         W ->
-            div [] []
+            Wsvg.drawing
 
         X ->
-            div [] []
+            Xsvg.drawing
 
         Y ->
-            div [] []
+            Ysvg.drawing
 
         Z ->
-            div [] []
+            Zsvg.drawing
