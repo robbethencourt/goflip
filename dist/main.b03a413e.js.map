@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.ts"],"names":[],"mappings":";;;AAAgB,IAAA,EAAA,QAAQ,cAAhB,EAAA,EAAA,IAER,EAAI,KAAK,KAAK,CACZ,KAAM,SAAS,eAAe","file":"main.b03a413e.js","sourceRoot":"../src","sourcesContent":["const { Elm } = require(\"./Main.elm\");\r\n\r\nElm.Main.init({\r\n  node: document.getElementById(\"main\")\r\n});\r\n"]}

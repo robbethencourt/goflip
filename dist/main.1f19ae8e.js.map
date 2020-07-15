@@ -1,1 +1,0 @@
-{"version":3,"sources":["main.ts"],"names":[],"mappings":"eAAgB,OAAO,CAAC,YAAD;IAAf,eAAA;;AAER,GAAG,CAAC,IAAJ,CAAS,IAAT,CAAc;AACZ,EAAA,IAAI,EAAE,QAAQ,CAAC,cAAT,CAAwB,MAAxB;AADM,CAAd","file":"main.1f19ae8e.js","sourceRoot":"../src","sourcesContent":["const { Elm } = require(\"./Main.elm\");\r\n\r\nElm.Main.init({\r\n  node: document.getElementById(\"main\")\r\n});\r\n"]}
