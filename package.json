@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/robbethencourt/goflip/issues"
   },
-  "homepage": "https://github.com/robbethencourt/goflip#readme"
+  "homepage": "https://github.com/robbethencourt/goflip#readme",
+  "devDependencies": {
+    "cssnano": "^4.1.10",
+    "elm-hot": "^1.1.4",
+    "node-elm-compiler": "^5.0.4"
+  }
 }

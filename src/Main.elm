@@ -2,8 +2,8 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Data.Alphabet as Alphabet
-import Html exposing (Html, div, header, img, li, nav, p, span, text, ul)
-import Html.Attributes exposing (class, src, style)
+import Html exposing (Html, div, header, li, nav, p, span, text, ul)
+import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import Html.Events.Extra.Touch as Touch
 import Route
@@ -37,7 +37,7 @@ type alias Model =
 
 
 init : () -> ( Model, Cmd Msg )
-init flags =
+init _ =
     ( { page = Route.LetterForm Alphabet.A Route.Show
       , previousPage = Route.LetterForm Alphabet.A Route.Show
       , startAt = ( 0, 0 )
@@ -110,7 +110,7 @@ update msg model =
             let
                 newPage =
                     case model.page of
-                        Route.Nav transition ->
+                        Route.Nav _ ->
                             model.previousPage
 
                         _ ->

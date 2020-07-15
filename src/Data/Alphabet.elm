@@ -34,7 +34,7 @@ import Data.Wsvg as Wsvg
 import Data.Xsvg as Xsvg
 import Data.Ysvg as Ysvg
 import Data.Zsvg as Zsvg
-import Html exposing (Html, div)
+import Html exposing (Html)
 
 
 type Letter
@@ -67,10 +67,6 @@ type Letter
 
 
 type alias LetterText =
-    String
-
-
-type alias DrawingLink =
     String
 
 
